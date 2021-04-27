@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="athlete in athleteList" :key="athlete">
+            <tr v-for="(athlete,index) in athleteList" :key="athlete">
                 <th scope="row">{{athlete.idAthlete}}</th>
                 <td>{{athlete.lastName}}</td>
                 <td>{{athlete.firstName}}</td>
@@ -24,7 +24,7 @@
                 <td>{{athlete.gender}}</td>
                 <td><button type="button" class="btn btn-primary">Voir les courses</button></td>
                 <td><button type="button" class="btn btn-warning">Modifier</button></td>
-                <td><deleteAthleteComponent :idAthlete=athlete.idAthlete /></td>
+                <td><deleteAthleteComponent v-on:deleted="deleteAthlete" :idAthlete="athlete.idAthlete" :iAthleteList="index" /></td>
             </tr>
         </tbody>
     </table>
@@ -42,7 +42,7 @@ export default {
   data () {
     return {
         athleteList : [],
-        url : "http://localhost:3000/api/athlete"
+        url : this.$apiURL + "/athlete"
     }
   },
   methods : {
@@ -52,6 +52,10 @@ export default {
           }).catch((error) => {
               console.log(error);
           })
+      },
+      deleteAthlete(athleteIDDeleted){
+          console.log("deleteAthlete");
+          this.athleteList.splice(athleteIDDeleted,1);
       }
   },
   mounted(){

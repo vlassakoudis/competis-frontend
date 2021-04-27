@@ -1,5 +1,5 @@
 <template>
-<button type="button" class="btn btn-danger" v-on:click="deleteAthlete()">Supprimer</button>
+<button type="button" class="btn btn-danger" v-on:click="deleteAthlete()">Désinscrire</button>
 </template>
 
 <script>
@@ -8,23 +8,24 @@ export default {
     name: 'deleteAthleteComponent',
   data () {
     return {
-        athleteList : [],
-        url : "http://localhost:3000/api/athlete/"
+        url : this.$apiURL + "/athlete/"
     }
   },
   props: {
-      idAthlete : Number
+      idAthlete : Number,
+      iAthleteList : Number
+
   },
   methods : {
       deleteAthlete (){
-          axios.delete(this.url).then((response) => {
-              console.log(response)
+          axios.delete(this.url + this.idAthlete).then((response) => {
+              this.$emit("deleted",this.iAthleteList);
+              console.log(response);
           }).catch((error) => {
               console.log(error);
           })
       }
   },
-
 }
 </script>
 

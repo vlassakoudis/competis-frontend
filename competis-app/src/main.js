@@ -11,6 +11,8 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 
+Vue.prototype.$apiURL = 'http://localhost:3000/api'
+
 new Vue({
   router,
   render: h => h(App)
