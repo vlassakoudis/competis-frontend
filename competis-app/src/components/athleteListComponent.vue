@@ -93,6 +93,7 @@ export default {
       },
       deleteAthlete(athleteIDDeleted){
           this.athleteList.splice(athleteIDDeleted,1);
+          this.$emit("deletedAthete");
       },
       getTrialsByAthelte(idAthlete){
           axios.get(this.url + "/athletebytrial/" + idAthlete).then((response) => {
