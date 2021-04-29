@@ -23,14 +23,14 @@
       <label class="form-label">Genre</label>
       <div class="row">
         <div class="form-check col">
-          <input class="form-check-input" type="radio" name="genre" value="H" id="homme" v-model="newAthlete.gender">
-          <label class="form-check-label" for="homme">
+          <input class="form-check-input" type="radio" name="genre" value="H" id="homme"  @click="changeListTrial('H')" v-model="newAthlete.gender">
+          <label class="form-check-label" for="homme"  @click="changeListTrial('H')">
           Homme
           </label>
         </div>
         <div class="form-check col">
-          <input class="form-check-input" type="radio" name="genre" value="F" id="femme" v-model="newAthlete.gender">
-          <label class="form-check-label" for="femme">
+          <input class="form-check-input" type="radio" name="genre" value="F"  @click="changeListTrial('F')" id="femme" v-model="newAthlete.gender">
+          <label class="form-check-label" for="femme"  @click="changeListTrial('F')">
           Femme
           </label>
         </div>
@@ -38,12 +38,12 @@
     </div>
   </div>
   <div class="row">
-    <ul v-for="trial in trialList" :key="trial">
-      <li>{{trial.label}} {{trial.gender}}</li>
-    </ul>
+    <div class="col" v-for="trial in trialListGender" :key="trial.idTrial">
+       <input type="checkbox" v-bind:id="trial.idTrial" v-bind:name="trial.label" v-bind:value="trial.idTrial" v-model="trialListSelected">
+       <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
+    </div>
   </div>
-  <button class="btn btn-success" v-on:click="addAthlete()" >Inscrire</button>
-
+  <button class="btn btn-success" @click="addAthlete()" >Inscrire</button>
   </div>
 </template>
 
@@ -54,15 +54,16 @@ export default {
   data () {
     return {
         trialList : [],
+        trialListGender : [],
         url : this.$apiURL,
         newAthlete : {
-          lastName : String,
-          firstName : String, 
-          birthYear : Number,
-          club : String,
-          gender : '1'
-        }
-
+          lastName : '',
+          firstName : '', 
+          birthYear : '',
+          club : '',
+          gender : ''
+        },
+        trialListSelected : []
     }
   },
   props: {
@@ -73,10 +74,26 @@ export default {
   methods : {
       addAthlete (){
           axios.post(this.url + "/athlete", this.newAthlete).then((response) =>{
+
+            this.addAthleteTrial(response.data.insertId);
+            this.$emit("addedAthlete");
+          
+          }).catch((error) =>{
+            console.log(error);
+          });
+      },
+      addAthleteTrial (newAthleteId){
+
+        for(let trialIdSelected of this.trialListSelected )
+        {
+          let newParticipation = {"idTrial" : trialIdSelected, "idAthlete" : newAthleteId};
+          
+          axios.post(this.url + "/athleteTrial", newParticipation).then((response) =>{
             console.log(response.data);
           }).catch((error) =>{
             console.log(error);
           });
+        }
       },
       getTrials(){
         axios.get(this.url + "/trial").then((response) => {
@@ -84,6 +101,15 @@ export default {
           }).catch((error) => {
               console.log(error);
           });
+      },
+      changeListTrial(genderSelected){
+        if(genderSelected == 'H'){
+          this.trialListGender = this.trialList.filter(trial => trial.gender == 'H');
+        }
+        else
+        {
+          this.trialListGender = this.trialList.filter(trial => trial.gender == 'F');
+        }
       }
   },
   mounted(){
@@ -97,4 +123,6 @@ export default {
   button{
     margin-right: 1em;
   }
+  
+  
 </style>

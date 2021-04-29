@@ -1,5 +1,5 @@
 <template>
-<button type="button" class="btn btn-danger" v-on:click="deleteAthlete()">Désinscrire</button>
+<button type="button" class="btn btn-danger" @click="deleteAthlete()">Désinscrire</button>
 </template>
 
 <script>

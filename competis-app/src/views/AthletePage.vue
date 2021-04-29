@@ -4,10 +4,10 @@
 
     <div class="contenu">
       <h1>Athlètes enregistrés</h1>
-      <button type="button" class="btn btn-primary" v-on:click="displayForm = true" v-if="!displayForm">Inscrire un athlète</button>
-      <button type="button" class="btn btn-secondary" v-on:click="displayForm = false" v-if="displayForm">Annuler</button>
-      <athleteFormComponent id="athleteFormComponent" v-if="displayForm"/>
-      <athleteListComponent id="athleteListComponent"/>
+      <button type="button" class="btn btn-primary" @click="displayForm = true" v-if="!displayForm">Inscrire un athlète</button>
+      <button type="button" class="btn btn-secondary" @click="displayForm = false" v-if="displayForm">Annuler</button>
+      <athleteFormComponent id="athleteFormComponent" v-on:addedAthlete="updateAthleteList" v-if="displayForm"/>
+      <athleteListComponent id="athleteListComponent" ref="athleteList"/>
     </div>
 
     <footerComponent/>
@@ -32,6 +32,12 @@ export default {
   data () {
     return{
        displayForm : false
+    }
+  },
+  methods :{
+    updateAthleteList(){
+      console.log("update");
+      this.$refs.athleteList.getAthleteList();
     }
   }
 }
