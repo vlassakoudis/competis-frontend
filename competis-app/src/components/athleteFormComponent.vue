@@ -43,7 +43,8 @@
        <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
     </div>
   </div>
-  <button class="btn btn-success" @click="addAthlete()" >Inscrire</button>
+    <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()">Inscrire</button>
+    <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
   </div>
 </template>
 
@@ -63,13 +64,21 @@ export default {
           club : '',
           gender : ''
         },
-        trialListSelected : []
+        trialListSelected : [],
+        isEditForm : false
     }
   },
   props: {
       idAthlete : Number,
-      iAthleteList : Number
-
+      iAthleteList : Number,
+      athleteEdit : Object,
+      isEditing : Boolean
+  },
+  watch : {
+    'isEditing' () {
+      console.log("gello");
+      this.newAthlete = this.athleteEdit;
+    }
   },
   methods : {
       addAthlete (){
@@ -81,6 +90,9 @@ export default {
           }).catch((error) =>{
             console.log(error);
           });
+      },
+      editAthlete(){
+
       },
       addAthleteTrial (newAthleteId){
 

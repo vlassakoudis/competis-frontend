@@ -37,7 +37,7 @@
       <button class="modal__close close" @click="showModalTrial = false">
             <span aria-hidden="true">&times;</span>
       </button>
-      <span class="modal__title">Inscription de {{athleteSelected.firstName}} {{athleteSelected.lastName}}</span>
+      <span class="modal__title">Inscription de {{athleteSelected.firstName}} {{athleteSelected.lastName}} </span>
       <div class="modal__content">
         <p v-if="trialListSelected.length == 0">L'athlète n'est pas encore inscrit à une course.</p>
         <ul v-else v-for="trial in trialListSelected" :key="trial.idTrial">
@@ -53,12 +53,9 @@
       <button class="modal__close close" @click="showModalEdit = false">
             <span aria-hidden="true">&times;</span>
       </button>
-      <span class="modal__title">Hello {{athleteSelected.lastName}}</span>
+      <span class="modal__title">Modifier l'inscription de {{athleteSelected.firstName}} {{athleteSelected.lastName}}</span>
       <div class="modal__content">
-        <p>
-          Vue Final Modal is a renderless, stackable, detachable and lightweight
-          modal component.
-        </p>
+        <athleteFormComponent :athleteEdit="athleteSelected" :isEditing="true" />
       </div>
     </vue-final-modal>
 
@@ -68,10 +65,12 @@
 <script>
 import axios from 'axios';
 import deleteAthleteComponent from '../components/deleteAthleteComponent.vue';
+import athleteFormComponent from '../components/athleteFormComponent.vue';
 export default {
     name: 'athleteListComponent',
     components: {
-        deleteAthleteComponent
+        deleteAthleteComponent,
+        athleteFormComponent
     },
   data () {
     return {
@@ -79,7 +78,7 @@ export default {
         url : this.$apiURL,
         showModalTrial : false,
         showModalEdit : false,
-        athleteSelected : [],
+        athleteSelected : {},
         trialListSelected : []
     }
   },
