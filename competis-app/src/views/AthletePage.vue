@@ -6,8 +6,8 @@
       <h1>Athlètes enregistrés</h1>
       <button type="button" class="btn btn-primary" @click="displayForm = true" v-if="!displayForm">Inscrire un athlète</button>
       <button type="button" class="btn btn-secondary" @click="displayForm = false" v-if="displayForm">Annuler</button>
-      <athleteFormComponent id="athleteFormComponent" v-on:addedAthlete="updateAthleteList" v-if="displayForm" :isEditing="false" />
-      <athleteListComponent id="athleteListComponent" v-on:deletedAthete="displayNotification('L\'athlète a bien été supprimé !')" ref="athleteList"/>
+      <athleteFormComponent id="athleteFormComponent" :newAthlete="{}" v-on:addedAthlete="updateAthleteList" v-if="displayForm" :isEditing="false" />
+      <athleteListComponent id="athleteListComponent" v-on:editedAthleteForm="displayNotification('L\'athlète a bien été modifié !')"  v-on:deletedAthete="displayNotification('L\'athlète a bien été supprimé !')" ref="athleteList"/>
     </div>
 
     <div id="snackbar">{{textNotification}}</div> 

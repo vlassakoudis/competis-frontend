@@ -23,7 +23,7 @@
                 <td>{{athlete.club}}</td>
                 <td>{{athlete.gender}}</td>
                 <td><button type="button" class="btn btn-primary" @click="showModalTrial = true; editTrialModal(athlete);">Voir les courses</button></td>
-                <td><button type="button" class="btn btn-warning" @click="showModalEdit = true">Modifier</button></td>
+                <td><button type="button" class="btn btn-warning"  @click="showModalEdit = true; editEditModal(athlete);">Modifier</button></td>
                 <td><deleteAthleteComponent v-on:deleted="deleteAthlete" :idAthlete="athlete.idAthlete" :iAthleteList="index" /></td>
             </tr>
         </tbody>
@@ -50,15 +50,15 @@
       v-model="showModalEdit"
       classes="modal-container"
       content-class="modal-content" >
-      <button class="modal__close close" @click="showModalEdit = false">
+      <button class="modal__close close" @click=";showModalEdit = false">
             <span aria-hidden="true">&times;</span>
       </button>
       <span class="modal__title">Modifier l'inscription de {{athleteSelected.firstName}} {{athleteSelected.lastName}}</span>
       <div class="modal__content">
-        <athleteFormComponent :athleteEdit="athleteSelected" :isEditing="true" />
+        <athleteFormComponent v-on:editedAthlete="updateEditedList" :newAthlete="athleteSelected" :isEditing="true" />
       </div>
     </vue-final-modal>
-
+    
 </div>
 </template>
 
@@ -94,7 +94,7 @@ export default {
           this.athleteList.splice(athleteIDDeleted,1);
           this.$emit("deletedAthete");
       },
-      getTrialsByAthelte(idAthlete){
+      getTrialsByAthlete(idAthlete){
           axios.get(this.url + "/athletebytrial/" + idAthlete).then((response) => {
               this.trialListSelected = response.data;
           }).catch((error) => {
@@ -103,8 +103,15 @@ export default {
       },
       editTrialModal(athlete){
         this.athleteSelected = athlete;
-        this.getTrialsByAthelte(athlete.idAthlete);
-        console.log(this.trialListSelected);
+        this.getTrialsByAthlete(athlete.idAthlete);
+      },
+      editEditModal(athlete){
+        this.atheteBeforeEdit = athlete;
+        this.athleteSelected = athlete;
+      },
+      updateEditedList(){
+        this.showModalEdit = false;
+        this.$emit("editedAthleteForm");
       }
   },
   mounted(){

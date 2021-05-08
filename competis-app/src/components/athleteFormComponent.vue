@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col">
       <label for="lastName" class="form-label">Nom</label>
-      <input type="text" class="form-control" id="lastName" v-model="newAthlete.lastName">
+      <input type="text" class="form-control" id="lastName" v-model="newAthlete.lastName" >
     </div>
     <div class="col">
       <label for="firstName" class="form-label">Prénom</label>
@@ -38,13 +38,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="col" v-for="trial in trialListGender" :key="trial.idTrial">
-       <input type="checkbox" v-bind:id="trial.idTrial" v-bind:name="trial.label" v-bind:value="trial.idTrial" v-model="trialListSelected">
+    <div class="col" v-for="trial in trialList" :key="trial.idTrial">
+       <input type="checkbox" v-bind:id="trial.idTrial" v-bind:name="trial.idTrial" v-bind:value="trial.idTrial" v-bind:disabled="trial.gender!=newAthlete.gender" v-model="trialListSelected">
        <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
     </div>
   </div>
     <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()">Inscrire</button>
     <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
+    {{this.newAthlete}}
   </div>
 </template>
 
@@ -55,29 +56,28 @@ export default {
   data () {
     return {
         trialList : [],
-        trialListGender : [],
         url : this.$apiURL,
-        newAthlete : {
-          lastName : '',
-          firstName : '', 
-          birthYear : '',
-          club : '',
-          gender : ''
-        },
-        trialListSelected : [],
-        isEditForm : false
+        trialListSelected : []
     }
   },
   props: {
       idAthlete : Number,
       iAthleteList : Number,
-      athleteEdit : Object,
-      isEditing : Boolean
+      newAthlete : {
+            idAthlete : '',
+            lastName : '',
+            firstName : '', 
+            birthYear : '',
+            club : '',
+            gender : ''
+        },
+      isEditing : Boolean,
   },
   watch : {
-    'isEditing' () {
-      console.log("gello");
-      this.newAthlete = this.athleteEdit;
+    newAthlete : async function(){
+      if(this.isEditing){
+        this.trialListSelected = await this.getTrialsByAthlete();
+      }
     }
   },
   methods : {
@@ -86,26 +86,51 @@ export default {
 
             this.addAthleteTrial(response.data.insertId);
             this.$emit("addedAthlete");
-          
+            console.log(response.data);
           }).catch((error) =>{
             console.log(error);
           });
       },
       editAthlete(){
-
-      },
-      addAthleteTrial (newAthleteId){
-
-        for(let trialIdSelected of this.trialListSelected )
-        {
-          let newParticipation = {"idTrial" : trialIdSelected, "idAthlete" : newAthleteId};
-          
-          axios.post(this.url + "/athleteTrial", newParticipation).then((response) =>{
+          axios.put(this.url + "/athlete", this.newAthlete).then((response) =>{
+            
+            this.editAthleteTrial(this.newAthlete.idAthlete);
+            this.$emit("editedAthlete");
             console.log(response.data);
           }).catch((error) =>{
             console.log(error);
           });
+      },
+      addAthleteTrial (newAthleteId){
+        
+        let participations = this.getParticipations(newAthleteId);
+        
+        axios.post(this.url + "/athleteTrial", participations).then((response) =>{
+          console.log(response.data);
+        }).catch((error) =>{
+          console.log(error);
+        });
+        
+      },
+      editAthleteTrial(athleteId){
+        let participations = this.getParticipations(athleteId);
+        console.log(athleteId);
+        console.log(participations);
+        axios.put(this.url + "/athleteTrial/"+ this.newAthlete.idAthlete, participations).then((response) =>{
+          console.log(response.data);
+        }).catch((error) =>{
+          console.log(error);
+        });
+        
+      },
+      getParticipations(newAthleteId){
+        let participations = [];
+
+        for(let trialIdSelected of this.trialListSelected )
+        {
+          participations.push({"trialId" : trialIdSelected, "athleteId" : newAthleteId});
         }
+        return participations;
       },
       getTrials(){
         axios.get(this.url + "/trial").then((response) => {
@@ -114,15 +139,13 @@ export default {
               console.log(error);
           });
       },
-      changeListTrial(genderSelected){
-        if(genderSelected == 'H'){
-          this.trialListGender = this.trialList.filter(trial => trial.gender == 'H');
-        }
-        else
-        {
-          this.trialListGender = this.trialList.filter(trial => trial.gender == 'F');
-        }
-      }
+      getTrialsByAthlete(){
+          axios.get(this.url + "/athletebytrial/" + this.newAthlete.idAthlete).then((response) => {
+              this.trialListSelected = response.data.map(trial => trial.idTrial);
+          }).catch((error) => {
+              console.log(error);
+          })
+      },
   },
   mounted(){
       this.getTrials();
