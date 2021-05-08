@@ -1,5 +1,17 @@
 <template>
 <div class="athleteList">
+    <form>
+    <label for="formFilterGender">Genre : </label>
+    <select class="form-control" id="formFilterGender" v-model="filterGenderSelected">
+      <option value="">-</option>
+      <option value="H">Homme</option>
+      <option value="F">Femme</option>
+    </select>
+    <label for="birthYear" class="form-label">Année de naissance</label>
+    <input type="number" class="form-control" id="birthYear" v-model="filterYearSelected">
+    <button  class="btn btn-primary" @click="filterList()">Appliquer le filtre</button>
+    <input type="reset"  class="btn btn-secondary" @click="removeFilter()" value="Retirer le filtre">
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -24,7 +36,7 @@
                 <td>{{athlete.gender}}</td>
                 <td><button type="button" class="btn btn-primary" @click="showModalTrial = true; editTrialModal(athlete);">Voir les courses</button></td>
                 <td><button type="button" class="btn btn-warning"  @click="showModalEdit = true; editEditModal(athlete);">Modifier</button></td>
-                <td><deleteAthleteComponent v-on:deleted="deleteAthlete" :idAthlete="athlete.idAthlete" :iAthleteList="index" /></td>
+                <td><button type="button" class="btn btn-danger" @click="deleteAthlete(athlete.idAthlete,index)">Désinscrire</button></td>
             </tr>
         </tbody>
     </table>
@@ -64,39 +76,46 @@
 
 <script>
 import axios from 'axios';
-import deleteAthleteComponent from '../components/deleteAthleteComponent.vue';
 import athleteFormComponent from '../components/athleteFormComponent.vue';
 export default {
     name: 'athleteListComponent',
     components: {
-        deleteAthleteComponent,
         athleteFormComponent
     },
   data () {
     return {
         athleteList : [],
+        athleteListFull : [],
         url : this.$apiURL,
         showModalTrial : false,
         showModalEdit : false,
         athleteSelected : {},
-        trialListSelected : []
+        trialListSelected : [],
+        filterGenderSelected : "",
+        filterYearSelected : "",
     }
   },
   methods : {
       getAthleteList(){
           axios.get(this.url + "/athlete").then((response) => {
               this.athleteList = response.data;
+              this.athleteListFull = this.athleteList;
           }).catch((error) => {
               console.log(error);
           })
       },
-      deleteAthlete(athleteIDDeleted){
-          this.athleteList.splice(athleteIDDeleted,1);
-          this.$emit("deletedAthete");
-      },
       getTrialsByAthlete(idAthlete){
           axios.get(this.url + "/athletebytrial/" + idAthlete).then((response) => {
               this.trialListSelected = response.data;
+          }).catch((error) => {
+              console.log(error);
+          })
+      },
+      deleteAthlete (idAthlete,indexListAthlete){
+          axios.delete(this.url + "/athlete/" + idAthlete).then((response) => {
+              this.athleteList.splice(indexListAthlete,1)
+              this.$emit("deletedAthlete");
+              console.log(response);
           }).catch((error) => {
               console.log(error);
           })
@@ -106,12 +125,30 @@ export default {
         this.getTrialsByAthlete(athlete.idAthlete);
       },
       editEditModal(athlete){
-        this.atheteBeforeEdit = athlete;
         this.athleteSelected = athlete;
       },
       updateEditedList(){
         this.showModalEdit = false;
         this.$emit("editedAthleteForm");
+      },
+      filterList(){
+        this.athleteList = this.athleteListFull;
+        if(this.filterGenderSelected != "" && this.filterYearSelected != ""){
+          this.athleteList = this.athleteList.filter(a => (a.gender == this.filterGenderSelected && a.birthYear == this.filterYearSelected ));
+        }
+        else{
+          if(this.filterGenderSelected != "" && this.filterYearSelected == ""){
+            this.athleteList = this.athleteList.filter(a => (a.gender == this.filterGenderSelected));
+          }
+          else{
+            if(this.filterGenderSelected == "" && this.filterYearSelected != ""){
+              this.athleteList = this.athleteList.filter(a => (a.birthYear == this.filterYearSelected ));
+            }
+          }
+        }
+      },
+      removeFilter(){
+        this.athleteList = this.athleteListFull;
       }
   },
   mounted(){

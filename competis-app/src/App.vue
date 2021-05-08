@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style>
   .contenu{
     margin-top: 1em;
     margin-bottom: 1em;
@@ -13,4 +13,5 @@
   h1{
     text-align: center;
   }
+
 </style>

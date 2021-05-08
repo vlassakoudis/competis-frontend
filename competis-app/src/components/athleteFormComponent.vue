@@ -12,7 +12,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <label for="birthYear" class="form-label">Date de naissance</label>
+      <label for="birthYear" class="form-label">Année de naissance</label>
       <input type="number" class="form-control" id="birthYear" v-model="newAthlete.birthYear">
     </div>
     <div class="col">
@@ -45,7 +45,6 @@
   </div>
     <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()">Inscrire</button>
     <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
-    {{this.newAthlete}}
   </div>
 </template>
 
@@ -83,8 +82,10 @@ export default {
   methods : {
       addAthlete (){
           axios.post(this.url + "/athlete", this.newAthlete).then((response) =>{
-
-            this.addAthleteTrial(response.data.insertId);
+            if(this.trialListSelected.length > 0)
+            {
+              this.addAthleteTrial(response.data.insertId);
+            }
             this.$emit("addedAthlete");
             console.log(response.data);
           }).catch((error) =>{

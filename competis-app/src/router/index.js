@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import AthletePage from '../views/AthletePage.vue'
 import TrialPage from '../views/TrialPage.vue'
-import TodoPage from '../views/TodoPage.vue'
 
 
 Vue.use(VueRouter)
@@ -23,11 +22,6 @@ const routes = [
     path : '/trial',
     name : 'Trial', 
     component : TrialPage
-  },
-  {
-    path : '/todo',
-    name : 'Todo', 
-    component : TodoPage
   }
 ]
 
