@@ -3,21 +3,21 @@
   <div class="row">
     <div class="col">
       <label for="lastName" class="form-label">Nom</label>
-      <input type="text" class="form-control" id="lastName" v-model="newAthlete.lastName" required>
+      <input type="text" class="form-control" id="lastName" placeholder="Nom" v-model="newAthlete.lastName" required>
     </div>
     <div class="col">
       <label for="firstName" class="form-label">Prénom</label>
-      <input type="text" class="form-control" id="firstName" v-model="newAthlete.firstName" required>
+      <input type="text" class="form-control" id="firstName" placeholder="Prénom" v-model="newAthlete.firstName" required>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <label for="birthYear" class="form-label">Année de naissance</label>
-      <input type="number" class="form-control" id="birthYear" v-model="newAthlete.birthYear" min="1900" max="2050" required>
+      <input type="number" class="form-control" id="birthYear" placeholder="Ex. 1998" v-model="newAthlete.birthYear" min="1900" max="2050" required>
     </div>
     <div class="col">
       <label for="club" class="form-label">Club</label>
-      <input type="text" class="form-control" id="club" v-model="newAthlete.club" required>
+      <input type="text" class="form-control" id="club" placeholder="Club" v-model="newAthlete.club" required>
     </div>
     <div class="col">
       <label for="form-label">Genre</label>
@@ -33,9 +33,11 @@
        <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
     </div>
   </div>
-    <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()" >Inscrire</button>
-    <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
+  <div class="row">
+    <button class="btn btn-success btnForm" v-if="!isEditing" @click="addAthlete()" >Inscrire</button>
+    <button class="btn btn-warning btnForm" v-else @click="editAthlete()">Modifier</button>
     <span class="textError">{{textError}}</span>
+  </div>
   </div>
 </template>
 

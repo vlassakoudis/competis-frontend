@@ -15,6 +15,16 @@
   .textError{
     color : #883c43;
   }
+
+  .btnForm{
+    margin-top: 15px !important;
+    padding-right: 3rem !important;
+    padding-left: 3rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-weight: bold !important;
+  }
+
   /* TABLE */
 
   
@@ -25,6 +35,7 @@
     border-radius: 3px;
     margin-top: 1em;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    
 }
 
 .tableTitle {
@@ -110,13 +121,15 @@
   border-radius: 0.25rem;
   background: #fff;
   max-width: 50%;
+  padding: 3rem !important;
 }
 .modal__title {
   margin: 0 2rem 0 0;
   font-size: 1.5rem;
   font-weight: 700;
   border-bottom: solid black 1px;
-  
+  margin-bottom: 10px !important;
+  padding-bottom: 1rem;
 }
 .modal__close {
   position: absolute;
