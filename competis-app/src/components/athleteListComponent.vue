@@ -1,18 +1,32 @@
 <template>
 <div class="athleteList">
-    <form>
-    <label for="formFilterGender">Genre : </label>
-    <select class="form-control" id="formFilterGender" v-model="filterGenderSelected">
-      <option value="">-</option>
-      <option value="H">Homme</option>
-      <option value="F">Femme</option>
-    </select>
-    <label for="birthYear" class="form-label">Année de naissance</label>
-    <input type="number" class="form-control" id="birthYear" v-model="filterYearSelected">
-    <button  class="btn btn-primary" @click="filterList()">Appliquer le filtre</button>
-    <input type="reset"  class="btn btn-secondary" @click="removeFilter()" value="Retirer le filtre">
-    </form>
-    <table class="table">
+  <div class="tableFilter">
+    <div class="row" >
+      <div class="col-sm-8 ">
+        <div class="row ">
+          <div class="col-sm-4">
+            <label for="formFilterGender">Genre</label>
+            <select class="form-control-sm filterFormInput" id="formFilterGender" v-model="filterGenderSelected">
+              <option value="">-</option>
+              <option value="H">Homme</option>
+              <option value="F">Femme</option>
+            </select>
+          </div>
+          <div class="col-sm-8">        
+            <label for="birthYear" class="form-label">Année de naissance </label>
+            <input type="number" class="form-control-sm filterFormInput" id="birthYear" v-model="filterYearSelected">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <button  class="btn btn-primary" @click="filterList()">Appliquer le filtre</button>
+        <input type="reset"  class="btn btn-secondary" @click="removeFilter()" value="Retirer le filtre">
+      </div>
+    </div>
+  </div>
+   
+
+    <table class="table table-responsive-lg">
         <thead>
             <tr>
                 <th scope="col">ID</th>
@@ -70,6 +84,7 @@
         <athleteFormComponent v-on:editedAthlete="updateEditedList" :newAthlete="athleteSelected" :isEditing="true" />
       </div>
     </vue-final-modal>
+
     
 </div>
 </template>
@@ -185,6 +200,19 @@ export default {
   position: absolute;
   top: 1rem;
   right: 1rem;
+}
+
+.filterFormInput {
+  margin-left: 1em;
+}
+.btn{
+   margin-left: 5px;
+}
+
+.tableFilter {
+    padding: 5px 0 15px;
+    border-bottom: 1px solid #e9e9e9;
+    margin-bottom: 5px;
 }
 
 </style>

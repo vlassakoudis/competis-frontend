@@ -1,13 +1,10 @@
 <template>
-<div class="header">
-  <nav class="navbar navbar-expand-md">
+<header class="navbar navbar-expand-md navbar-dark bd-navbar">
+  <nav class="container-xxl flex-wrap flex-md-nowrap">
     <div class="container-fluid">
       <span class="navbar-brand">COMPETIS</span>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">Accueil</router-link>
-          </li>
           <li class="nav-item">
             <router-link to="/athlete" class="nav-link">Athlètes</router-link>
           </li>
@@ -18,7 +15,7 @@
       </div>
     </div>
   </nav>
-</div>
+</header>
 </template>
 
 <script>

@@ -1,16 +1,16 @@
 <template>
   <div class="HomePage">
-          <headerComponent/>  
+    <headerComponent/>  
+    <div class="container-sm">
+      <div class="row">
+        <div class="col">
+          <bandTitleComponent title="Bienvenue" text="dufhsoufhrzhifoirhfih"/>
+          <bandTitleComponent title="Contact" text="dfjdifjdifjdik"/>
+        </div>
+      </div>
+    </div>
 
-          <div class="container-fluid p-0 ">
-            <div class="row">
-              <div class="col">
-                <bandTitleComponent title="Bienvenue" text="dufhsoufhrzhifoirhfih"/>
-                <bandTitleComponent title="Contact" text="dfjdifjdifjdik"/>
-              </div>
-            </div>
-          </div>
-          <footerComponent/>
+    <footerComponent/>
   </div>
 </template>
 

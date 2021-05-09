@@ -3,23 +3,23 @@
   <div class="row">
     <div class="col">
       <label for="label" class="form-label">Label</label>
-      <input type="text" class="form-control" id="label" v-model="trial.label" >
+      <input type="text" class="form-control" id="label" v-model="trial.label" required>
     </div>
     <div class="col">
       <label for="startHour" class="form-label">Heure de début</label>
-      <input type="time" class="form-control" id="startHour" v-model="trial.startHour">
+      <input type="time" class="form-control" id="startHour" v-model="trial.startHour" required>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <label for="duration" class="form-label">Durée</label>
-      <input type="time" class="form-control" id="duration" v-model="trial.duration">
+      <input type="time" class="form-control" id="duration" v-model="trial.duration" required>
     </div>
     <div class="col" v-if="!isEditing">
       <label class="form-label">Genre</label>
       <div class="row">
         <div class="form-check col">
-          <input class="form-check-input" type="radio" name="genre" value="H" id="homme" v-model="trial.gender">
+          <input class="form-check-input" type="radio" name="genre" value="H" id="homme" v-model="trial.gender" required>
           <label class="form-check-label" for="homme">
           Homme
           </label>
@@ -85,6 +85,14 @@ export default {
   button{
     margin-right: 1em;
   }
+    input:invalid {
+  border: 2px dashed black;
+}
+
+  input:valid {
+  border: 2px solid #28a745;
+}
+
   
   
 </style>

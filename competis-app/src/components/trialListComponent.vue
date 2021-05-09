@@ -10,7 +10,7 @@
                 <th scope="col">Durée</th>
                 <th scope="col">Athlètes</th>
                 <th scope="col">Modifier</th>
-                <th scope="col">Supprimer</th>
+                <th scope="col">Annuler</th>
             </tr>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
                 <td>{{trial.duration}}</td>
                 <td><button type="button" class="btn btn-primary" @click="showModalAthlete = true; editAthleteModal(trial);">Voir les athlètes</button></td>
                 <td><button type="button" class="btn btn-warning" @click="showModalEdit = true; editEditModal(trial);">Modifier</button></td>
-                <td><button type="button" class="btn btn-danger" @click="deleteTrial(trial.idTrial,index)">Désinscrire</button></td>
+                <td><button type="button" class="btn btn-danger" @click="deleteTrial(trial.idTrial,index)">Annuler</button></td>
             </tr>
         </tbody>
     </table>
@@ -123,30 +123,4 @@ export default {
 
 <style scoped >
 
-::v-deep .modal-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-::v-deep .modal-content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 0 1rem;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.25rem;
-  background: #fff;
-  max-width: 50%;
-}
-.modal__title {
-  margin: 0 2rem 0 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-.modal__close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
 </style>

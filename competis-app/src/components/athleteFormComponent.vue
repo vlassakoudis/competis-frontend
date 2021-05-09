@@ -3,34 +3,34 @@
   <div class="row">
     <div class="col">
       <label for="lastName" class="form-label">Nom</label>
-      <input type="text" class="form-control" id="lastName" v-model="newAthlete.lastName" >
+      <input type="text" class="form-control" id="lastName" v-model="newAthlete.lastName" required>
     </div>
     <div class="col">
       <label for="firstName" class="form-label">Prénom</label>
-      <input type="text" class="form-control" id="firstName" v-model="newAthlete.firstName">
+      <input type="text" class="form-control" id="firstName" v-model="newAthlete.firstName" required>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <label for="birthYear" class="form-label">Année de naissance</label>
-      <input type="number" class="form-control" id="birthYear" v-model="newAthlete.birthYear">
+      <input type="number" class="form-control" id="birthYear" v-model="newAthlete.birthYear" min="1900" max="2050" required>
     </div>
     <div class="col">
       <label for="club" class="form-label">Club</label>
-      <input type="text" class="form-control" id="club" v-model="newAthlete.club">
+      <input type="text" class="form-control" id="club" v-model="newAthlete.club" required>
     </div>
     <div class="col">
       <label class="form-label">Genre</label>
       <div class="row">
         <div class="form-check col">
-          <input class="form-check-input" type="radio" name="genre" value="H" id="homme"  @click="changeListTrial('H')" v-model="newAthlete.gender">
-          <label class="form-check-label" for="homme"  @click="changeListTrial('H')">
+          <input class="form-check-input" type="radio" required name="gender" value="H" id="homme"  v-model="newAthlete.gender"  >
+          <label class="form-check-label" for="homme" >
           Homme
           </label>
         </div>
         <div class="form-check col">
-          <input class="form-check-input" type="radio" name="genre" value="F"  @click="changeListTrial('F')" id="femme" v-model="newAthlete.gender">
-          <label class="form-check-label" for="femme"  @click="changeListTrial('F')">
+          <input class="form-check-input" type="radio" name="gender" value="F" id="femme" v-model="newAthlete.gender" >
+          <label class="form-check-label" for="femme" >
           Femme
           </label>
         </div>
@@ -43,7 +43,7 @@
        <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
     </div>
   </div>
-    <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()">Inscrire</button>
+    <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()" >Inscrire</button>
     <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
   </div>
 </template>
@@ -159,6 +159,14 @@ export default {
   button{
     margin-right: 1em;
   }
+  input:invalid {
+  border: 2px dashed black;
+}
+
+  input:valid {
+  border: 2px solid #28a745;
+}
+
   
   
 </style>

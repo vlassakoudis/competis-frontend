@@ -1,9 +1,7 @@
 <template>
-<div class="footer">
-<footer >
+<footer class="navbar navbar-expand-md navbar-dark bd-navbar fixed-bottom" >
   COMPETIS - VLASSAKOUDIS Yannick
 </footer>
-</div>
 </template>
 
 <script>
