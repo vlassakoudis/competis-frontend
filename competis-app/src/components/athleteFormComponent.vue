@@ -20,31 +20,22 @@
       <input type="text" class="form-control" id="club" v-model="newAthlete.club" required>
     </div>
     <div class="col">
-      <label class="form-label">Genre</label>
-      <div class="row">
-        <div class="form-check col">
-          <input class="form-check-input" type="radio" required name="gender" value="H" id="homme"  v-model="newAthlete.gender"  >
-          <label class="form-check-label" for="homme" >
-          Homme
-          </label>
-        </div>
-        <div class="form-check col">
-          <input class="form-check-input" type="radio" name="gender" value="F" id="femme" v-model="newAthlete.gender" >
-          <label class="form-check-label" for="femme" >
-          Femme
-          </label>
-        </div>
-      </div>
+      <label for="form-label">Genre</label>
+      <select class="form-control" id="gender" v-model="newAthlete.gender" @change="changeListTrialGender()" required>
+        <option value="H">Homme</option>
+        <option value="F">Femme</option>
+      </select>
     </div>
   </div>
   <div class="row">
-    <div class="col" v-for="trial in trialList" :key="trial.idTrial">
-       <input type="checkbox" v-bind:id="trial.idTrial" v-bind:name="trial.idTrial" v-bind:value="trial.idTrial" v-bind:disabled="trial.gender!=newAthlete.gender" v-model="trialListSelected">
+    <div class="col" v-for="trial in trialListGender" :key="trial.idTrial">
+       <input type="checkbox" v-bind:id="trial.idTrial" v-bind:name="trial.idTrial" v-bind:value="trial.idTrial" v-model="trialListSelected">
        <label v-bind:for="trial.idTrial"> {{trial.label}} {{trial.gender}}</label><br>
     </div>
   </div>
     <button class="btn btn-success" v-if="!isEditing" @click="addAthlete()" >Inscrire</button>
     <button class="btn btn-warning" v-else @click="editAthlete()">Modifier</button>
+    <span class="textError">{{textError}}</span>
   </div>
 </template>
 
@@ -56,7 +47,9 @@ export default {
     return {
         trialList : [],
         url : this.$apiURL,
-        trialListSelected : []
+        trialListSelected : [],
+        trialListGender : [],
+        textError : ""
     }
   },
   props: {
@@ -80,27 +73,65 @@ export default {
     }
   },
   methods : {
+      isValidAthlete(){
+        if(this.newAthlete.lastName == "" || typeof this.newAthlete.lastName == 'undefined')
+        {
+          return "Veuillez remplir le champ \"Nom\"";
+        }
+        if(this.newAthlete.firstName == "" || typeof this.newAthlete.firstName == 'undefined')
+        {
+          return "Veuillez remplir le champ \"Prénom\"";
+        }
+        if(this.newAthlete.birthYear == ""|| typeof this.newAthlete.birthYear == 'undefined' ||  typeof this.newAthlete.birthYear == 'number')
+        {
+          return "Veuillez remplir correctement le champ \"Année de naissance\"";
+        }
+        if(this.newAthlete.club == "" || typeof this.newAthlete.club == 'undefined')
+        {
+          return "Veuillez remplir le champ \"Club\"";
+        }
+        if(this.newAthlete.gender == "" || typeof this.newAthlete.gender == 'undefined')
+        {
+          return "Veuillez remplir le champ \"Genre\"";
+        }
+        return "";
+      },
       addAthlete (){
-          axios.post(this.url + "/athlete", this.newAthlete).then((response) =>{
-            if(this.trialListSelected.length > 0)
-            {
-              this.addAthleteTrial(response.data.insertId);
-            }
-            this.$emit("addedAthlete");
-            console.log(response.data);
-          }).catch((error) =>{
-            console.log(error);
-          });
+          let isValidAthlete = this.isValidAthlete()
+          if(isValidAthlete == "")
+          {
+            axios.post(this.url + "/athlete", this.newAthlete).then((response) =>{
+                  if(this.trialListSelected.length > 0)
+                  {
+                    this.addAthleteTrial(response.data.insertId);
+                  }
+                  this.$emit("addedAthlete");
+                  console.log(response.data);
+              }).catch((error) =>{
+                console.log(error);
+              });
+          }
+          else
+          {
+            this.textError = isValidAthlete;
+          }
       },
       editAthlete(){
-          axios.put(this.url + "/athlete", this.newAthlete).then((response) =>{
-            
-            this.editAthleteTrial(this.newAthlete.idAthlete);
-            this.$emit("editedAthlete");
-            console.log(response.data);
-          }).catch((error) =>{
-            console.log(error);
-          });
+          let isValidAthlete = this.isValidAthlete()
+          if(isValidAthlete == "")
+          {
+            axios.put(this.url + "/athlete", this.newAthlete).then((response) =>{
+              
+              this.editAthleteTrial(this.newAthlete.idAthlete);
+              this.$emit("editedAthlete");
+              console.log(response.data);
+            }).catch((error) =>{
+              console.log(error);
+            });
+          }
+          else{
+            this.textError = isValidAthlete;
+          }
       },
       addAthleteTrial (newAthleteId){
         
@@ -147,6 +178,10 @@ export default {
               console.log(error);
           })
       },
+      changeListTrialGender(){
+        this.trialListSelected = [];
+        this.trialListGender = this.trialList.filter(t => t.gender == this.newAthlete.gender)
+      }
   },
   mounted(){
       this.getTrials();
@@ -159,13 +194,11 @@ export default {
   button{
     margin-right: 1em;
   }
-  input:invalid {
-  border: 2px dashed black;
-}
+  
 
   input:valid {
   border: 2px solid #28a745;
-}
+  }
 
   
   

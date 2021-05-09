@@ -9,9 +9,12 @@
 
   #app{
     background-color:#f5f5f5 ;
+    min-height: inherit;
   }
 
-
+  .textError{
+    color : #883c43;
+  }
   /* TABLE */
 
   

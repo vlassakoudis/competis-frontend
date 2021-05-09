@@ -29,7 +29,6 @@
     <table class="table table-responsive-lg">
         <thead>
             <tr>
-                <th scope="col">ID</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Année de naissance</th>
@@ -42,7 +41,6 @@
         </thead>
         <tbody>
             <tr v-for="(athlete,index) in athleteList" :key="athlete.idAthlete">
-                <th scope="row">{{athlete.idAthlete}}</th>
                 <td>{{athlete.lastName}}</td>
                 <td>{{athlete.firstName}}</td>
                 <td>{{athlete.birthYear}}</td>
@@ -76,7 +74,7 @@
       v-model="showModalEdit"
       classes="modal-container"
       content-class="modal-content" >
-      <button class="modal__close close" @click=";showModalEdit = false">
+      <button class="modal__close close" @click="showModalEdit = false;">
             <span aria-hidden="true">&times;</span>
       </button>
       <span class="modal__title">Modifier l'inscription de {{athleteSelected.firstName}} {{athleteSelected.lastName}}</span>

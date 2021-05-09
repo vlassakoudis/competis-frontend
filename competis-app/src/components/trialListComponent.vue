@@ -3,8 +3,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Course</th>
+                <th scope="col">Épreuve</th>
                 <th scope="col">Genre</th>
                 <th scope="col">Heure de départ</th>
                 <th scope="col">Durée</th>
@@ -15,7 +14,6 @@
         </thead>
         <tbody>
             <tr v-for="(trial,index) in trialList" :key="trial.idTrial">
-                <th scope="row">{{trial.idTrial}}</th>
                 <td>{{trial.label}}</td>
                 <td>{{trial.gender}}</td>
                 <td>{{trial.startHour}}</td>
@@ -48,7 +46,7 @@
       v-model="showModalEdit"
       classes="modal-container"
       content-class="modal-content" >
-      <button class="modal__close close" @click=";showModalEdit = false">
+      <button class="modal__close close" @click="showModalEdit = false;">
             <span aria-hidden="true">&times;</span>
       </button>
       <span class="modal__title">Modifier la course de {{trialSelected.label}} - {{trialSelected.gender}}</span>
@@ -70,6 +68,7 @@ export default {
   data () {
     return {
         trialList : [],
+        trialListBeforeEdit : [],
         athleteList : [],
         url : this.$apiURL,
         showModalAthlete : false,
@@ -98,6 +97,7 @@ export default {
         this.getAthleteByTrial(trial.idTrial);
       },
       editEditModal(trial){
+        this.trialListBeforeEdit = this.trialList;
         this.trialSelected = trial;
       },
         deleteTrial (idTrial,indexListTrial){

@@ -4,8 +4,7 @@
     <div class="container-sm">
       <div class="row">
         <div class="col">
-          <bandTitleComponent title="Bienvenue" text="dufhsoufhrzhifoirhfih"/>
-          <bandTitleComponent title="Contact" text="dfjdifjdifjdik"/>
+          login
         </div>
       </div>
     </div>
@@ -17,14 +16,12 @@
 <script>
 import headerComponent from '../components/headerComponent.vue';
 import footerComponent from '../components/footerComponent.vue';
-import bandTitleComponent from '../components/bandTitleComponent.vue';
 
 export default {
   name: 'HomePage',
   components: {
     headerComponent,
-    footerComponent,
-    bandTitleComponent
+    footerComponent
   }
 }
 </script>
