@@ -13,6 +13,9 @@
   }
 
   .textError{
+    margin-top: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
     color : #883c43;
   }
 

@@ -30,6 +30,8 @@
   <div class="row">
     <button class="btn btn-success btnForm" v-if="!isEditing" @click="addTrial()">Ajouter course</button>
     <button class="btn btn-warning btnForm" v-else @click="editTrial()">Modifier</button>
+  </div>
+  <div class="row">
     <span class="textError">{{textError}}</span>
   </div>
   </div>
