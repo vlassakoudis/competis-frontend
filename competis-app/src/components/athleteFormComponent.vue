@@ -34,7 +34,7 @@
     </div>
   </div>
   <div class="row">
-    <button class="btn btn-success btnForm" v-if="!isEditing" @click="addAthlete()" >Inscrire</button>
+    <button class="btn btn-success btnForm" v-if="!isEditing" @click="addAthlete()"  >Inscrire</button>
     <button class="btn btn-warning btnForm" v-else @click="editAthlete()">Modifier</button>
   </div>
   <div class="row">
@@ -184,10 +184,9 @@ export default {
           })
       },
       changeListTrialGender(){
-        console.log(this.newAthlete.gender);
         this.trialListSelected = [];
         this.trialListGender = this.trialList.filter(t => t.gender == this.newAthlete.gender)
-        console.log(this.trialListGender);
+
       }
   },
   mounted(){

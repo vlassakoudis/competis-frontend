@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomePage from '../views/HomePage.vue'
 import AthletePage from '../views/AthletePage.vue'
 import TrialPage from '../views/TrialPage.vue'
 
@@ -10,8 +9,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: HomePage
+    name: 'Athlete',
+    component: AthletePage
   },
   {
     path: '/athlete',

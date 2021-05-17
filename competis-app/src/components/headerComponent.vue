@@ -1,6 +1,6 @@
 <template>
 <header class="navbar navbar-expand-md navbar-dark bd-navbar">
-  <nav class="container-xxl flex-wrap flex-md-nowrap">
+  <nav class="container-xxl flex-wrap flex-md-nowrap" role="navigation">
     <div class="container-fluid">
       <span class="navbar-brand">COMPETIS</span>
       <div class="navbar-collapse" id="navbarNav">

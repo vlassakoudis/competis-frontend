@@ -1,5 +1,5 @@
 <template>
-<footer class="navbar navbar-expand-md navbar-dark bd-navbar fixed-bottom" >
+<footer class="navbar navbar-expand-md navbar-dark bd-navbar fixed-bottom" role="footer">
   COMPETIS - VLASSAKOUDIS Yannick
 </footer>
 </template>

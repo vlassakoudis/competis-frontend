@@ -40,7 +40,7 @@
             </tr>
         </thead>
         <tbody v-for="(athlete,index) in athleteList" :key="athlete.idAthlete">
-          <athleteRowComponent :athlete="athlete" :index="index" v-on:editedAthleteForm="editedAthleteForm" v-on:deletedAthlete="deletedAthlete" v-on:initAthleteList="initAthleteList" />
+          <athleteRowComponent :athlete="athlete"  :index="index" v-on:editedAthleteForm="editedAthleteForm" v-on:deletedAthlete="deletedAthlete" v-on:initAthleteList="initAthleteList" />
         </tbody>
     </table>
     

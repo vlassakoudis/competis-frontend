@@ -2,7 +2,7 @@
   <div id="athletePage">
     <headerComponent/>
 
-    <div class="container-sm">
+    <div class="container-sm" role="content">
       <div class="tableWrapper">
         <div class="tableTitle">
           <div class="row">
@@ -63,6 +63,8 @@ export default {
     return{
        showModalAdd : false,
        textNotification : "",
+       trialList : [],
+       url : this.$apiURL,
     }
   },
   methods :{
@@ -84,7 +86,9 @@ export default {
       setTimeout(function(){ x.className = x.className.replace("show", ""); }, 5000);
     } 
 
-
+  },
+  created(){
+    document.title = "Gestion des athlètes";
   }
 }
 </script>
